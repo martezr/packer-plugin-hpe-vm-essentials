@@ -10,3 +10,6 @@
 * Expose simpler primitives such as names instead of IDs
 * Add support for tags
 * Cleanup template generated files for ISO builds
+
+## ISSUES
+* Uppercase is not supported for the boot commands

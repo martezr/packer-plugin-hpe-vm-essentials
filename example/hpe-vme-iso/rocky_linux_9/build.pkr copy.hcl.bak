@@ -1,0 +1,81 @@
+/*
+packer {
+  required_plugins {
+    hpe-vme = {
+      version = "0.0.1"
+      source  = "github.com/martezr/hpe-vme"
+    }
+  }
+}
+*/
+
+locals {
+  timestamp = formatdate("mmss", timestamp())
+  vm_name   = "packiso-${local.timestamp}"
+  boot_command = [
+    "<up><tab> text ip={{ .StaticIP }}::{{ .StaticGateway }}:{{ .StaticMask }}:${local.vm_name}:ens3:none nameserver={{ .StaticDNS }} inst.ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ks.cfg<enter><wait><enter>"
+  ]
+}
+
+source "hpe-vme-iso" "rocky-linux-demo" {
+  //url      = var.vme_url
+  //username = var.vme_username
+  //password = var.vme_password
+
+  url      = "https://grtvme01.grt.local"
+  username = "mreed"
+  password = "Password123#"
+
+  // HPE VME Cluster
+  cluster_name     = "vmecluster01"
+  vm_name          = local.vm_name
+  description      = "packer test instance"
+  environment      = "dev"
+  labels           = ["packer", "automation"]
+  virtual_image_id = 31
+  group            = "Platform Engineering"
+  cloud            = "HPE Demo"
+  plan_id          = 21
+
+  network_interface {
+    network_id                = 3
+    network_interface_type_id = 4
+  }
+
+  storage_volume {
+    name            = "root"
+    root_volume     = true
+    size            = 25
+    storage_type_id = 1
+    datastore_id    = 2
+  }
+
+  convert_to_template = true
+  template_name       = "rocky9vme"
+
+  boot_command            = local.boot_command
+  boot_wait               = "5s"
+  http_interface          = "en0"
+  http_directory          = "${path.root}/http"
+  http_template_directory = "${path.root}/http_templates"
+  http_port_max           = 8030
+  http_port_min           = 8020
+
+  ip_wait_timeout = "15m"
+
+  // Provisioner settimgs
+  ssh_timeout  = "55m"
+  communicator = "ssh"
+  ssh_username = "root"
+  ssh_password = "mysecurepassword"
+}
+
+build {
+  sources = [
+    "source.hpe-vme-iso.rocky-linux-demo"
+  ]
+
+  provisioner "shell" {
+    script = "scripts/setup.sh"
+  }
+}

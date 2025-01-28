@@ -1,7 +1,7 @@
-# Packer Plugin Morpheus MVM
+# Packer Plugin HPE VM Essentials
 
-The `mvm` multi-component plugin can be used with HashiCorp [Packer](https://www.packer.io)
-to create custom images for the [MVM virtualization solution](https://docs.morpheusdata.com/en/latest/infrastructure/clusters/mvm.html) integrated with the Morpheus Platform. For the full list of available features for this plugin see [docs](docs).
+The `hpe-vme` multi-component plugin can be used with HashiCorp [Packer](https://www.packer.io)
+to create custom images for the [HPE VM Essentials KVM hypervisor](https://www.hpe.com/us/en/hpe-vm-essentials.html). For the full list of available features for this plugin see [docs](docs).
 
 ## Installation
 
@@ -19,9 +19,9 @@ Then, run [`packer init`](https://www.packer.io/docs/commands/init).
 ```hcl
 packer {
   required_plugins {
-    mvm = {
+    hpe-vme = {
       version = ">= 0.0.1"
-      source  = "github.com/martezr/mvm"
+      source  = "github.com/martezr/hpe-vme"
     }
   }
 }
@@ -29,7 +29,7 @@ packer {
 
 #### Manual installation
 
-You can find pre-built binary releases of the plugin [here](https://github.com/martezr/packer-plugin-mvm/releases).
+You can find pre-built binary releases of the plugin [here](https://github.com/martezr/packer-plugin-hpe-vm-essentials/releases).
 Once you have downloaded the latest archive corresponding to your target OS,
 uncompress it to retrieve the plugin binary file corresponding to your platform.
 To install the plugin, please follow the Packer documentation on
@@ -40,7 +40,7 @@ To install the plugin, please follow the Packer documentation on
 
 If you prefer to build the plugin from sources, clone the GitHub repository
 locally and run the command `go build` from the root
-directory. Upon successful compilation, a `packer-plugin-mvm` plugin
+directory. Upon successful compilation, a `packer-plugin-hpe-vm-essentials` plugin
 binary file can be found in the root directory.
 To install the compiled plugin, please follow the official Packer documentation
 on [installing a plugin](https://www.packer.io/docs/extending/plugins/#installing-plugins).

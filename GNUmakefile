@@ -1,4 +1,4 @@
-NAME=mvm
+NAME=hpe-vme
 BINARY=packer-plugin-${NAME}
 
 COUNT?=1
@@ -13,7 +13,7 @@ build:
 
 dev:
 	go build -ldflags="-X '${PLUGIN_FQN}/version.VersionPrerelease=dev'" -o ${BINARY}
-	chmod +x packer-plugin-mvm && cp packer-plugin-mvm ~/.packer.d/plugins
+	chmod +x packer-plugin-hpe-vme && cp packer-plugin-hpe-vme ~/.packer.d/plugins
 	export PACKER_PLUGIN_PATH="~/.packer.d/plugins"
 
 test:

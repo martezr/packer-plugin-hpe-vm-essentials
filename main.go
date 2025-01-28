@@ -4,12 +4,12 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/martezr/packer-plugin-mvm/builder/mvm/clone"
-	"github.com/martezr/packer-plugin-mvm/builder/mvm/iso"
-	"github.com/martezr/packer-plugin-mvm/provisioner/morpheus"
+	"github.com/martezr/packer-plugin-hpe-vm-essentials/builder/hpe-vme/clone"
+	"github.com/martezr/packer-plugin-hpe-vm-essentials/builder/hpe-vme/iso"
+	"github.com/martezr/packer-plugin-hpe-vm-essentials/provisioner/morpheus"
 
 	"github.com/hashicorp/packer-plugin-sdk/plugin"
-	"github.com/martezr/packer-plugin-mvm/version"
+	"github.com/martezr/packer-plugin-hpe-vm-essentials/version"
 )
 
 func main() {

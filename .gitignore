@@ -1,5 +1,5 @@
 main
-packer-plugin-mvm
+packer-plugin-hpe-vme
 **/packer_log*.txt
 **/git_*test.pkr.hcl
 crash.log

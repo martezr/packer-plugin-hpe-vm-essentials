@@ -1,0 +1,24 @@
+<!-- Code generated from the comments of the Config struct in builder/hpe-vme/iso/config.go; DO NOT EDIT MANUALLY -->
+
+- `ip_wait_timeout` (duration string | ex: "1h5m2s") - Amount of time to wait for VM's IP, similar to 'ssh_timeout'.
+  Defaults to 30m (30 minutes). See the Golang
+  [ParseDuration](https://golang.org/pkg/time/#ParseDuration) documentation
+  for full details.
+
+- `http_template_directory` (string) - HTTP Template Directory
+
+- `convert_to_template` (bool) - Whether to convert the instance to a virtual image
+
+- `description` (string) - The description of the instance to provision.
+
+- `environment` (string) - The environment to associate with the instance.
+
+- `labels` ([]string) - The metadata labels to associate with the instance.
+
+- `tags` ([]map[string]interface{}) - Tags
+
+- `host` (int64) - The ID of the HPE VM Essentials host to deploy the instance to.
+
+- `attach_virtio_drivers` (bool) - Whether to attach the VirtIO drivers ISO to the instance.
+
+<!-- End of code generated from the comments of the Config struct in builder/hpe-vme/iso/config.go; -->
