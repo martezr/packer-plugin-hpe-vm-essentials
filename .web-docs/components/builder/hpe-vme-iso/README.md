@@ -31,6 +31,16 @@ references, which are necessary for a build to succeed and can be found further 
 
 - `convert_to_template` (bool) - Whether to convert the instance to a virtual image
 
+- `template_name` (string) - The name of the virtual image to create.
+
+- `template_labels` ([]string) - The labels associated with the virtual image.
+
+- `template_minimum_memory` (int64) - The minimum amount of memory required to provision the virtual image.
+
+- `template_cloud_init_enabled` (bool) - Whether cloud init is enabled on the virtual image.
+
+- `template_storage_bucket_id` (int64) - The ID of the storage bucket to store the virtual image.
+
 - `description` (string) - The description of the instance to provision.
 
 - `environment` (string) - The environment to associate with the instance.
@@ -79,7 +89,7 @@ disk controller plus the new configured ones.
 
 <!-- Code generated from the comments of the NetworkInterface struct in builder/hpe-vme/iso/config.go; DO NOT EDIT MANUALLY -->
 
-- `network_id` (int64) - The ID of the network to connect the interface to.
+- `network` (string) - The name of the network to connect the interface to.
 
 - `network_interface_type_id` (int64) - The ID of the network interface type used by the network interface.
 

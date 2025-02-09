@@ -140,10 +140,32 @@ func (s *StepProvisionVM) Run(_ context.Context, state multistep.StateBag) multi
 	var Nics []PayloadNetworkInterface
 
 	for _, nic := range s.builder.config.NetworkInterfaces {
-		var NetworkDemo PayloadNetworkInterface
-		NetworkDemo.NetworkInterfaceTypeID = nic.NetworkInterfaceTypeId
-		NetworkDemo.Network.ID = fmt.Sprintf("network-%d", nic.NetworkId)
-		Nics = append(Nics, NetworkDemo)
+		resp, err := c.ListNetworks(&morpheus.Request{
+			QueryParams: map[string]string{
+				"name": nic.Network,
+			},
+		})
+		if err != nil {
+			ui.Error(err.Error())
+			log.Printf("API FAILURE: %s - %s", cloudResp, err)
+		}
+		networks := resp.Result.(*morpheus.ListNetworksResult)
+		networkId := 0
+		for _, network := range *networks.Networks {
+			if network.ZonePool.Name == s.builder.config.ClusterName {
+				networkId = int(network.ID)
+			}
+		}
+
+		// Error out if the defined network is unable to be found
+		if networkId == 0 {
+			ui.Errorf("Unable to find network named %s", nic.Network)
+			ui.Error(err.Error())
+		}
+		var NetworkData PayloadNetworkInterface
+		NetworkData.NetworkInterfaceTypeID = nic.NetworkInterfaceTypeId
+		NetworkData.Network.ID = fmt.Sprintf("network-%d", networkId)
+		Nics = append(Nics, NetworkData)
 	}
 	payload["networkInterfaces"] = Nics
 

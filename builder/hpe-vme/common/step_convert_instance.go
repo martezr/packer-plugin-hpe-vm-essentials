@@ -14,9 +14,13 @@ import (
 
 // This is a definition of a builder step and should implement multistep.Step
 type StepConvertInstance struct {
-	ConvertToTemplate bool
-	InstanceName      string
-	TemplateName      string
+	ConvertToTemplate        bool
+	InstanceName             string
+	TemplateName             string
+	TemplateMinimumMemory    int64
+	TemplateCloudInitEnabled bool
+	TemplateLabels           []string
+	TemplateStorageBucketId  int64
 }
 
 // Run should execute the purpose of this step
@@ -32,7 +36,7 @@ func (s *StepConvertInstance) Run(_ context.Context, state multistep.StateBag) m
 
 		clonePayload := make(map[string]interface{})
 		clonePayload["templateName"] = s.TemplateName
-		clonePayload["storageProviderId"] = 1
+		clonePayload["storageProviderId"] = s.TemplateStorageBucketId
 		data, err := c.Execute(&morpheus.Request{
 			Method: "PUT",
 			Body:   clonePayload,
@@ -83,19 +87,24 @@ func (s *StepConvertInstance) Run(_ context.Context, state multistep.StateBag) m
 			log.Println("Current status:", currentStatus)
 			time.Sleep(15 * time.Second)
 		}
-		/*
-			resp, err := c.UpdateVirtualImage(virtualImageId, &morpheus.Request{
-				Body: map[string]interface{}{
-					"virtualImage": map[string]interface{}{
-						"name": s.TemplateName,
-					},
+
+		resp, err := c.UpdateVirtualImage(virtualImageId, &morpheus.Request{
+			Body: map[string]interface{}{
+				"virtualImage": map[string]interface{}{
+					"isCloudInit":      s.TemplateCloudInitEnabled,
+					"vmToolsInstalled": false,
+					"labels":           s.TemplateLabels,
+					"installAgent":     false,
+					"sshUsername":      "",
+					"sshPassword":      "",
 				},
-			})
-			if err != nil {
-				log.Println("API ERROR: ", err)
-			}
-			log.Printf("API RESPONSE: %s", resp)
-		*/
+			},
+		})
+		if err != nil {
+			log.Println("API ERROR: ", err)
+		}
+		log.Printf("API RESPONSE: %s", resp)
+
 	}
 	// Determines that should continue to the next step
 	return multistep.ActionContinue

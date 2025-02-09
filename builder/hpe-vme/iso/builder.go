@@ -94,9 +94,13 @@ func (b *Builder) Run(ctx context.Context, ui packer.Ui, hook packer.Hook) (pack
 			&common.StepStopInstance{},
 			&common.StepEjectDisks{},
 			&common.StepConvertInstance{
-				ConvertToTemplate: b.config.ConvertToTemplate,
-				InstanceName:      b.config.VirtualMachineName,
-				TemplateName:      b.config.TemplateName,
+				ConvertToTemplate:        b.config.ConvertToTemplate,
+				InstanceName:             b.config.VirtualMachineName,
+				TemplateName:             b.config.TemplateName,
+				TemplateMinimumMemory:    b.config.TemplateMinimumMemory,
+				TemplateCloudInitEnabled: b.config.TemplateCloudInitEnabled,
+				TemplateLabels:           b.config.TemplateLabels,
+				TemplateStorageBucketId:  b.config.TemplateStorageBucketId,
 			},
 			&common.StepRemoveInstance{},
 		)

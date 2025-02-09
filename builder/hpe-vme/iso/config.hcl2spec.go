@@ -87,7 +87,11 @@ type FlatConfig struct {
 	ClusterName               *string                  `mapstructure:"cluster_name" required:"true" cty:"cluster_name" hcl:"cluster_name"`
 	VirtualMachineName        *string                  `mapstructure:"vm_name" required:"true" cty:"vm_name" hcl:"vm_name"`
 	VirtualImageID            *int64                   `mapstructure:"virtual_image_id" required:"true" cty:"virtual_image_id" hcl:"virtual_image_id"`
-	TemplateName              *string                  `mapstructure:"template_name" required:"true" cty:"template_name" hcl:"template_name"`
+	TemplateName              *string                  `mapstructure:"template_name" cty:"template_name" hcl:"template_name"`
+	TemplateLabels            []string                 `mapstructure:"template_labels" cty:"template_labels" hcl:"template_labels"`
+	TemplateMinimumMemory     *int64                   `mapstructure:"template_minimum_memory" cty:"template_minimum_memory" hcl:"template_minimum_memory"`
+	TemplateCloudInitEnabled  *bool                    `mapstructure:"template_cloud_init_enabled" cty:"template_cloud_init_enabled" hcl:"template_cloud_init_enabled"`
+	TemplateStorageBucketId   *int64                   `mapstructure:"template_storage_bucket_id" cty:"template_storage_bucket_id" hcl:"template_storage_bucket_id"`
 	ServicePlanID             *int64                   `mapstructure:"plan_id" required:"true" cty:"plan_id" hcl:"plan_id"`
 	Cloud                     *string                  `mapstructure:"cloud" required:"true" cty:"cloud" hcl:"cloud"`
 	Group                     *string                  `mapstructure:"group" required:"true" cty:"group" hcl:"group"`
@@ -191,6 +195,10 @@ func (*FlatConfig) HCL2Spec() map[string]hcldec.Spec {
 		"vm_name":                      &hcldec.AttrSpec{Name: "vm_name", Type: cty.String, Required: false},
 		"virtual_image_id":             &hcldec.AttrSpec{Name: "virtual_image_id", Type: cty.Number, Required: false},
 		"template_name":                &hcldec.AttrSpec{Name: "template_name", Type: cty.String, Required: false},
+		"template_labels":              &hcldec.AttrSpec{Name: "template_labels", Type: cty.List(cty.String), Required: false},
+		"template_minimum_memory":      &hcldec.AttrSpec{Name: "template_minimum_memory", Type: cty.Number, Required: false},
+		"template_cloud_init_enabled":  &hcldec.AttrSpec{Name: "template_cloud_init_enabled", Type: cty.Bool, Required: false},
+		"template_storage_bucket_id":   &hcldec.AttrSpec{Name: "template_storage_bucket_id", Type: cty.Number, Required: false},
 		"plan_id":                      &hcldec.AttrSpec{Name: "plan_id", Type: cty.Number, Required: false},
 		"cloud":                        &hcldec.AttrSpec{Name: "cloud", Type: cty.String, Required: false},
 		"group":                        &hcldec.AttrSpec{Name: "group", Type: cty.String, Required: false},
@@ -209,8 +217,8 @@ func (*FlatConfig) HCL2Spec() map[string]hcldec.Spec {
 // FlatNetworkInterface is an auto-generated flat version of NetworkInterface.
 // Where the contents of a field with a `mapstructure:,squash` tag are bubbled up.
 type FlatNetworkInterface struct {
-	NetworkId              *int64 `mapstructure:"network_id" required:"true" cty:"network_id" hcl:"network_id"`
-	NetworkInterfaceTypeId *int64 `mapstructure:"network_interface_type_id" required:"true" cty:"network_interface_type_id" hcl:"network_interface_type_id"`
+	Network                *string `mapstructure:"network" required:"true" cty:"network" hcl:"network"`
+	NetworkInterfaceTypeId *int64  `mapstructure:"network_interface_type_id" required:"true" cty:"network_interface_type_id" hcl:"network_interface_type_id"`
 }
 
 // FlatMapstructure returns a new FlatNetworkInterface.
@@ -225,7 +233,7 @@ func (*NetworkInterface) FlatMapstructure() interface{ HCL2Spec() map[string]hcl
 // The decoded values from this spec will then be applied to a FlatNetworkInterface.
 func (*FlatNetworkInterface) HCL2Spec() map[string]hcldec.Spec {
 	s := map[string]hcldec.Spec{
-		"network_id":                &hcldec.AttrSpec{Name: "network_id", Type: cty.Number, Required: false},
+		"network":                   &hcldec.AttrSpec{Name: "network", Type: cty.String, Required: false},
 		"network_interface_type_id": &hcldec.AttrSpec{Name: "network_interface_type_id", Type: cty.Number, Required: false},
 	}
 	return s

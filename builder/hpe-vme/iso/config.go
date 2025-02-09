@@ -36,7 +36,15 @@ type Config struct {
 	// The ID of the ISO virtual image to use as the instance instance source image.
 	VirtualImageID int64 `mapstructure:"virtual_image_id" required:"true"`
 	// The name of the virtual image to create.
-	TemplateName string `mapstructure:"template_name" required:"true"`
+	TemplateName string `mapstructure:"template_name"`
+	// The labels associated with the virtual image.
+	TemplateLabels []string `mapstructure:"template_labels"`
+	// The minimum amount of memory required to provision the virtual image.
+	TemplateMinimumMemory int64 `mapstructure:"template_minimum_memory"`
+	// Whether cloud init is enabled on the virtual image.
+	TemplateCloudInitEnabled bool `mapstructure:"template_cloud_init_enabled"`
+	// The ID of the storage bucket to store the virtual image.
+	TemplateStorageBucketId int64 `mapstructure:"template_storage_bucket_id"`
 	// The ID of the service plan that will be associated with the instance.
 	ServicePlanID int64 `mapstructure:"plan_id" required:"true"`
 	// The name of the cloud that contains the HPE VM Essentials cluster.
@@ -60,8 +68,8 @@ type Config struct {
 }
 
 type NetworkInterface struct {
-	// The ID of the network to connect the interface to.
-	NetworkId int64 `mapstructure:"network_id" required:"true"`
+	// The name of the network to connect the interface to.
+	Network string `mapstructure:"network" required:"true"`
 	// The ID of the network interface type used by the network interface.
 	NetworkInterfaceTypeId int64 `mapstructure:"network_interface_type_id" required:"true"`
 }
