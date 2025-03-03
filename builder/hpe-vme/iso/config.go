@@ -107,6 +107,7 @@ func (c *Config) Prepare(raws ...interface{}) (generatedVars []string, warnings 
 	errs = packersdk.MultiErrorAppend(errs, c.Comm.Prepare(&c.Ctx)...)
 	errs = packersdk.MultiErrorAppend(errs, c.BootConfig.Prepare(&c.Ctx)...)
 	errs = packersdk.MultiErrorAppend(errs, c.HTTPConfig.Prepare(&c.Ctx)...)
+	errs = packersdk.MultiErrorAppend(errs, c.ConnectConfiguration.Prepare()...)
 
 	if errs != nil && len(errs.Errors) > 0 {
 		return nil, warnings, errs

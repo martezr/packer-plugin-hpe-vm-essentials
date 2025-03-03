@@ -47,9 +47,8 @@ func (s *StepProvisionVM) Run(_ context.Context, state multistep.StateBag) multi
 
 	// Resource Pool
 	resourcePoolResp, err := c.Execute(&morpheus.Request{
-		Method: "GET",
-		//		Path:        fmt.Sprintf("/api/options/zonePools?layoutId=%d", instanceType.InstanceTypeLayouts[0].ID),
-		Path:        fmt.Sprintf("/api/options/zonePools"),
+		Method:      "GET",
+		Path:        "/api/options/zonePools",
 		QueryParams: map[string]string{},
 	})
 	if err != nil {
@@ -64,6 +63,11 @@ func (s *StepProvisionVM) Run(_ context.Context, state multistep.StateBag) multi
 		if v.ProviderType == "mvm" && v.Name == s.builder.config.ClusterName {
 			resourcePoolId = v.Id
 		}
+	}
+
+	if resourcePoolId == 0 {
+		ui.Errorf("Unable to find cluster named %s", s.builder.config.ClusterName)
+		ui.Error(err.Error())
 	}
 
 	config["resourcePoolId"] = resourcePoolId

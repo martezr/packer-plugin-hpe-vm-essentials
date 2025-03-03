@@ -60,3 +60,13 @@ func (s *StepConnect) Cleanup(state multistep.StateBag) {
 	ui.Message("Closing sessions ....")
 	client.Logout()
 }
+
+func (c *ConnectConfiguration) Prepare() []error {
+	var errs []error
+
+	if c.AccessToken == "" && c.Username == "" && c.Password == "" {
+		errs = append(errs, fmt.Errorf("authentication credentials must be provided"))
+	}
+
+	return errs
+}

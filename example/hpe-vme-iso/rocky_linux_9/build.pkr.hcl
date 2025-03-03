@@ -24,16 +24,16 @@ source "hpe-vme-iso" "demo" {
   url                     = var.vme_url
   username                = var.vme_username
   password                = var.vme_password
-  cluster_name            = "vmecluster01"
+  cluster_name            = "hpevmecluster"
   boot_command            = local.boot_command
-  boot_wait               = "3s"
+  boot_wait               = "1s"
   http_interface          = "en0"
   http_directory          = "${path.root}/http"
   http_template_directory = "${path.root}/http_templates"
   http_port_min           = 8020
   http_port_max           = 8030
   vm_name                 = local.vm_name
-  virtual_image_id        = 31
+  virtual_image_id        = 21
   group                   = "Platform Engineering"
   cloud                   = "HPE Demo"
   plan_id                 = 21
@@ -55,7 +55,7 @@ source "hpe-vme-iso" "demo" {
     root_volume     = true
     size            = 25
     storage_type_id = 1
-    datastore_id    = 2
+    datastore_id    = 17
   }
 
   storage_volume {
@@ -63,7 +63,7 @@ source "hpe-vme-iso" "demo" {
     root_volume     = false
     size            = 10
     storage_type_id = 1
-    datastore_id    = 2
+    datastore_id    = 17
   }
 
   # Raise the timeout, when installation takes longer

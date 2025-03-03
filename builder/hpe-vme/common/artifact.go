@@ -1,6 +1,6 @@
 package common
 
-const BuilderId = "morpheus.mvm"
+const BuilderId = "hpe.vme"
 
 // packersdk.Artifact implementation
 type Artifact struct {
@@ -19,12 +19,12 @@ func (a *Artifact) Files() []string {
 	return []string{}
 }
 
-func (*Artifact) Id() string {
-	return ""
+func (a *Artifact) Id() string {
+	return a.Name
 }
 
 func (a *Artifact) String() string {
-	return ""
+	return a.Name
 }
 
 func (a *Artifact) State(name string) interface{} {
